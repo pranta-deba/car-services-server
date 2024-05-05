@@ -79,6 +79,11 @@ async function run() {
         })
         .send({ success: true });
     });
+    app.post("/logOut", (req, res) => {
+      const user = req.body;
+      // console.log(user);
+      res.clearCookie("token", { maxAge: 0 }).send({ success: true });
+    });
     /****************************** auth related ************************************************/
 
     /****************************** CRUD ************************************************/
@@ -104,7 +109,7 @@ async function run() {
     // orders filter by email
     app.get("/orders", logger, verifyToken, async (req, res) => {
       // console.log("token : ", req.cookies.token);
-      // console.log(req.user.user);
+      // console.log(req.user);
 
       if (req.query?.email !== req.user.user) {
         return res.status(403).send({ message: "forbidden access" });
